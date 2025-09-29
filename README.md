@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Brass Anvil Grouo LLC | Business Systems Analysis & Consulting</title>
-    <!-- Load Tailwind CSS -->
+    <title> Brass Anvil Group LLC | Business Systems Analysis & Consulting </title>
+    <!-- Load Tailwind CSS --> 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
