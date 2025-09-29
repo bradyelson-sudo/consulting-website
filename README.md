@@ -19,7 +19,6 @@
         .bg-anvil { background-color: #4a5568; } /* Dark gray/anvil look */
         .text-anvil { color: #1a202c; }
         .border-highlight { border-color: #fbbf24; } /* Amber/Brass highlight */
-
         /* Animation for scrolling effect */
         .scroll-section {
             opacity: 0;
@@ -33,7 +32,6 @@
     </style>
 </head>
 <body class="antialiased">
-
     <!-- Header & Navigation -->
     <header class="bg-anvil shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
@@ -52,7 +50,6 @@
             </button>
         </div>
     </header>
-
     <!-- Hero Section -->
     <section class="color-primary text-white py-20 sm:py-32 scroll-section visible">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -68,7 +65,6 @@
             <p class="mt-4 text-sm opacity-80">Serving organizations globally on a contract basis.</p>
         </div>
     </section>
-
     <!-- Expertise Section -->
     <section id="expertise" class="py-20 bg-white scroll-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,7 +91,6 @@
             </div>
         </div>
     </section>
-
     <!-- Services Section -->
     <section id="services" class="py-20 bg-gray-50 scroll-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,7 +123,6 @@
             </div>
         </div>
     </section>
-
     <!-- About Section -->
     <section id="about" class="py-20 bg-white scroll-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -151,13 +145,11 @@
             </div>
         </div>
     </section>
-
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-anvil text-white scroll-section">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-4xl font-extrabold text-amber-400 mb-6 text-center">Contract Inquiry</h2>
             <p class="text-lg text-center mb-8 opacity-90">Send me a message to discuss your project requirements and contract needs.</p>
-
             <form id="contactForm" class="space-y-6 bg-gray-700 p-8 rounded-xl shadow-2xl">
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-200 mb-1">Your Name / Company Contact</label>
@@ -179,7 +171,6 @@
             <p class="text-center text-xs mt-4 opacity-70">Note: This form uses a secure mail protocol. You will be redirected to confirm the email.</p>
         </div>
     </section>
-
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-400 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
@@ -187,10 +178,8 @@
             <p class="mt-2">Connect: LinkedIn | <a href="#contact" class="text-amber-400 hover:underline">Contact</a></p>
         </div>
     </footer>
-
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
-
         // --- Intersection Observer for Scroll Animation ---
         const scrollSections = document.querySelectorAll('.scroll-section');
         const observerOptions = {
@@ -198,7 +187,6 @@
             rootMargin: '0px',
             threshold: 0.1
         };
-
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -207,38 +195,29 @@
                 }
             });
         }, observerOptions);
-
         scrollSections.forEach(section => {
             if (!section.classList.contains('visible')) {
                  observer.observe(section);
             }
         });
-
         // --- Form Submission Logic (using mailto: as a static fallback) ---
         const contactForm = document.getElementById('contactForm');
         const statusMessage = document.getElementById('statusMessage');
-
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const project = document.getElementById('project').value;
-
             // Simple mailto link creation (Requires user action to send)
             const subject = encodeURIComponent(`Contract Inquiry from ${name}`);
             const body = encodeURIComponent(`Sender Name/Contact: ${name}\nSender Email: ${email}\n\nProject Summary:\n${project}`);
             const mailtoLink = `mailto:your.professional.email@brass-anvil-llc.com?subject=${subject}&body=${body}`;
-
             // In a live environment using a host like Netlify, Vercel, or a traditional host,
             // you would use a backend script or a forms service endpoint here.
-
             statusMessage.textContent = 'Preparing email... Please click send in the new window/tab.';
             statusMessage.classList.add('text-amber-400');
-
             // Open the mail client
             window.location.href = mailtoLink;
-
             // Clear the message after a short delay (since the user leaves the page)
             setTimeout(() => {
                 statusMessage.textContent = '';
@@ -246,7 +225,6 @@
                 // For a static site, we advise the user to check their email client.
             }, 3000);
         });
-
     </script>
 </body>
 </html>
