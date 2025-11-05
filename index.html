@@ -1,351 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brass Anvil Group LLC | Product Strategy, Business Analysis & Consulting</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        
-        html {
-            scroll-behavior: smooth; 
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f7f7;
-            color: #1a202c;
-        }
-        /* Custom Brass Anvil colors based on a deep professional palette */
-        .color-primary { background-color: #3b82f6; } /* Blue for trust/tech */
-        .text-primary { color: #1e40af; } /* Darker Blue */
-        .bg-anvil { background-color: #4a5568; } /* Dark gray/anvil look */
-        .text-anvil { color: #1a202c; }
-        .border-highlight { border-color: #fbbf24; } /* Amber/Brass highlight */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brass Anvil Group LLC | Product Strategy, Business Analysis & Consulting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        html {
+            scroll-behavior: smooth; 
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+            color: #1a202c;
+        }
 
-        /* --- NEW PARALLAX STYLES --- */
+        /* Hero section with overlay */
         #hero-parallax {
-            /* Using a dark, tech-related abstract image */
             background-image: url('https://picsum.photos/seed/techabstract/1920/1080'); 
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            /* Key Parallax Property */
-            background-attachment: fixed;
             position: relative;
+            min-height: 500px;
+        }
+
+        /* Mobile-friendly parallax alternative */
+        @media (min-width: 768px) {
+            #hero-parallax {
+                background-attachment: fixed;
+            }
         }
 
         #hero-parallax::before {
-            /* Dark Overlay for text readability */
             content: '';
             position: absolute;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
-            background-color: rgba(60, 100, 160, 0.7); /* Adjusted Blue overlay for the Primary color */
+            background-color: rgba(60, 100, 160, 0.7);
             z-index: 10;
         }
+        
         .hero-content {
             position: relative;
-            z-index: 20; /* Ensure text is above the overlay */
+            z-index: 20;
         }
 
-        /* Animation for scrolling effect */
-        .scroll-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .scroll-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        /* Scroll animation */
+        .scroll-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .scroll-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        /* Custom style for the modal to ensure it overlays everything */
-        #successModal {
-            transition: opacity 0.3s ease;
-        }
-    </style>
+        /* Modal styling */
+        .modal-backdrop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .modal-content {
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-backdrop.show .modal-content {
+            transform: scale(1);
+        }
+    </style>
 </head>
 <body class="antialiased">
 
-        <header class="bg-anvil shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold text-white tracking-widest">
-                <span class="text-amber-400">BRASS</span> ANVIL
-            </div>
-                        <nav id="desktop-menu" class="hidden md:flex space-x-4 text-white text-sm font-medium items-center">
-                <a href="#expertise" class="py-2 px-3 rounded-full hover:text-amber-400 hover:bg-gray-700 transition duration-300">Expertise</a>
-                <a href="#services" class="py-2 px-3 rounded-full hover:text-amber-400 hover:bg-gray-700 transition duration-300">Services</a>
-                <a href="#about" class="py-2 px-3 rounded-full hover:text-amber-400 hover:bg-gray-700 transition duration-300">About</a>
-                <a href="#contact" class="px-4 py-2 bg-amber-400 text-gray-900 rounded-full hover:bg-amber-300 transition duration-300 shadow-md"> Let's Connect</a>
-            </nav>
-                        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </div>
-                <div id="mobile-menu" class="hidden md:hidden bg-gray-700 py-2">
-            <nav class="flex flex-col space-y-2 px-4 text-white text-base">
-                <a href="#expertise" class="block py-2 hover:bg-gray-600 rounded transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Expertise</a>
-                <a href="#services" class="block py-2 hover:bg-gray-600 rounded transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Services</a>
-                <a href="#about" class="block py-2 hover:bg-gray-600 rounded transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">About</a>
-                <a href="#contact" class="block py-2 text-amber-400 hover:bg-gray-600 rounded transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Let's Connect</a>
-            </nav>
-        </div>
-    </header>
+    <header class="bg-gray-700 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-white tracking-widest">
+                <span class="text-amber-400">BRASS</span> ANVIL
+            </div>
+            <nav id="desktop-menu" class="hidden md:flex space-x-4 text-white text-sm font-medium items-center">
+                <a href="#expertise" class="py-2 px-3 rounded-full hover:text-amber-400 hover:bg-gray-600 transition duration-300">Expertise</a>
+                <a href="#services" class="py-2 px-3 rounded-full hover:text-amber-400 hover:bg-gray-600 transition duration-300">Services</a>
+                <a href="#about" class="py-2 px-3 rounded-full hover:text-amber-400 hover:bg-gray-600 transition duration-300">About</a>
+                <a href="#contact" class="px-4 py-2 bg-amber-400 text-gray-900 rounded-full hover:bg-amber-300 transition duration-300 shadow-md">Let's Connect</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-600 py-2">
+            <nav class="flex flex-col space-y-2 px-4 text-white text-base">
+                <a href="#expertise" class="block py-2 hover:bg-gray-500 rounded transition duration-300">Expertise</a>
+                <a href="#services" class="block py-2 hover:bg-gray-500 rounded transition duration-300">Services</a>
+                <a href="#about" class="block py-2 hover:bg-gray-500 rounded transition duration-300">About</a>
+                <a href="#contact" class="block py-2 text-amber-400 hover:bg-gray-500 rounded transition duration-300">Let's Connect</a>
+            </nav>
+        </div>
+    </header>
 
     <div id="hero-parallax">
-                <section class="text-white py-20 sm:py-32 scroll-section visible hero-content">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 leading-tight">
-                    Driving Clarity in Complex Systems.
-                </h1>
-                <p class="text-xl sm:text-2xl font-light max-w-3xl mx-auto mb-8">
-                    Brass Anvil provides expert Business Analysis to bridge the gap between business needs and technological solutions, ensuring profitable, sustainable outcomes.
-                </p>
-                <a href="#contact" class="inline-block px-8 py-4 bg-amber-400 text-gray-900 font-bold text-lg rounded-xl shadow-2xl hover:bg-amber-300 transition duration-300 hover:shadow-xl">
-                    Discuss Your Next Project
-                </a>
-                <p class="mt-4 text-sm opacity-80">Serving organizations globally.</p>
-            </div>
-        </section>
+        <section class="text-white py-20 sm:py-32 scroll-section visible hero-content">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 leading-tight">
+                    Driving Clarity in Complex Systems.
+                </h1>
+                <p class="text-xl sm:text-2xl font-light max-w-3xl mx-auto mb-8">
+                    Brass Anvil provides expert Business Analysis to bridge the gap between business needs and technological solutions, ensuring profitable, sustainable outcomes.
+                </p>
+                <a href="#contact" class="inline-block px-8 py-4 bg-amber-400 text-gray-900 font-bold text-lg rounded-xl shadow-2xl hover:bg-amber-300 transition duration-300 hover:shadow-xl">
+                    Discuss Your Next Project
+                </a>
+                <p class="mt-4 text-sm opacity-80">Serving organizations globally.</p>
+            </div>
+        </section>
     </div>
 
-        <section id="expertise" class="py-20 bg-white scroll-section">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-4xl font-extrabold text-anvil mb-12 text-center">My Expertise in Action</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-primary hover:shadow-xl transition duration-300">
-                    <div class="text-3xl text-primary mb-3">🛠️</div>
-                    <h3 class="text-xl font-bold mb-3 text-anvil">Requirements Engineering</h3>
-                    <p class="text-gray-600">Mastery in eliciting, documenting (epics, user stories, functional/non-functional specs), and managing complex requirement sets across diverse stakeholders.</p>
-                </div>
-                                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-primary hover:shadow-xl transition duration-300">
-                    <div class="text-3xl text-primary mb-3">🗺️</div>
-                    <h3 class="text-xl font-bold mb-3 text-anvil">Process Optimization & Modeling</h3>
-                    <p class="text-gray-600">Utilizing BPMN and UML to map 'As-Is' and 'To-Be' states, identifying bottlenecks and driving efficiency improvements for maximum ROI.</p>
-                </div>
-                                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-primary hover:shadow-xl transition duration-300">
-                    <div class="text-3xl text-primary mb-3">🚀</div>
-                    <h3 class="text-xl font-bold mb-3 text-anvil">SDLC & Methodology</h3>
-                    <p class="text-gray-600">Deep experience in Agile (Scrum/Kanban) and Waterfall environments, ensuring successful product delivery and system implementation.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section id="expertise" class="py-20 bg-white scroll-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-12 text-center">My Expertise in Action</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-blue-500 hover:shadow-xl transition duration-300">
+                    <div class="text-3xl mb-3">🛠️</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Requirements Engineering</h3>
+                    <p class="text-gray-600">Mastery in eliciting, documenting (epics, user stories, functional/non-functional specs), and managing complex requirement sets across diverse stakeholders.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-blue-500 hover:shadow-xl transition duration-300">
+                    <div class="text-3xl mb-3">🗺️</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Process Optimization & Modeling</h3>
+                    <p class="text-gray-600">Utilizing BPMN and UML to map 'As-Is' and 'To-Be' states, identifying bottlenecks and driving efficiency improvements for maximum ROI.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-blue-500 hover:shadow-xl transition duration-300">
+                    <div class="text-3xl mb-3">🚀</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">SDLC & Methodology</h3>
+                    <p class="text-gray-600">Deep experience in Agile (Scrum/Kanban) and Waterfall environments, ensuring successful product delivery and system implementation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="services" class="py-20 bg-gray-50 scroll-section">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-4xl font-extrabold text-anvil mb-12 text-center">My Consulting Offerings</h2>
-            <div class="space-y-10">
-                                <div class="md:flex md:space-x-10 p-6 bg-white rounded-xl shadow-xl hover:ring-2 ring-amber-400 transition duration-300">
-                    <div class="md:w-1/3 flex items-center mb-4 md:mb-0">
-                        <div class="text-5xl text-amber-500 mr-4">💡</div>
-                        <h3 class="text-2xl font-semibold text-primary">Strategic Discovery</h3>
-                    </div>
-                    <p class="md:w-2/3 text-gray-600">Conducting initial feasibility studies, stakeholder alignment, and current state assessments to establish a clear project vision and scope definition.</p>
-                </div>
-                                <div class="md:flex md:space-x-10 p-6 bg-white rounded-xl shadow-xl hover:ring-2 ring-amber-400 transition duration-300">
-                    <div class="md:w-1/3 flex items-center mb-4 md:mb-0">
-                        <div class="text-5xl text-amber-500 mr-4">✍️</div>
-                        <h3 class="text-2xl font-semibold text-primary">Detailed Documentation</h3>
-                    </div>
-                    <p class="md:w-2/3 text-gray-600">Production of high-quality artifacts, including user stories, acceptance criteria, wireframes, data dictionaries, and traceability matrices.</p>
-                </div>
-                                <div class="md:flex md:space-x-10 p-6 bg-white rounded-xl shadow-xl hover:ring-2 ring-amber-400 transition duration-300">
-                    <div class="md:w-1/3 flex items-center mb-4 md:mb-0">
-                        <div class="text-5xl text-amber-500 mr-4">✅</div>
-                        <h3 class="text-2xl font-semibold text-primary">Testing & UAT Support</h3>
-                    </div>
-                    <p class="md:w-2/3 text-gray-600">Defining test strategies, creating test cases derived directly from requirements, and supporting User Acceptance Testing (UAT) to validate solutions.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section id="services" class="py-20 bg-gray-50 scroll-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-12 text-center">My Consulting Offerings</h2>
+            <div class="space-y-10">
+                <div class="md:flex md:space-x-10 p-6 bg-white rounded-xl shadow-xl hover:ring-2 ring-amber-400 transition duration-300">
+                    <div class="md:w-1/3 flex items-center mb-4 md:mb-0">
+                        <div class="text-5xl text-amber-500 mr-4">💡</div>
+                        <h3 class="text-2xl font-semibold text-blue-700">Strategic Discovery</h3>
+                    </div>
+                    <p class="md:w-2/3 text-gray-600">Conducting initial feasibility studies, stakeholder alignment, and current state assessments to establish a clear project vision and scope definition.</p>
+                </div>
+                <div class="md:flex md:space-x-10 p-6 bg-white rounded-xl shadow-xl hover:ring-2 ring-amber-400 transition duration-300">
+                    <div class="md:w-1/3 flex items-center mb-4 md:mb-0">
+                        <div class="text-5xl text-amber-500 mr-4">✍️</div>
+                        <h3 class="text-2xl font-semibold text-blue-700">Detailed Documentation</h3>
+                    </div>
+                    <p class="md:w-2/3 text-gray-600">Production of high-quality artifacts, including user stories, acceptance criteria, wireframes, data dictionaries, and traceability matrices.</p>
+                </div>
+                <div class="md:flex md:space-x-10 p-6 bg-white rounded-xl shadow-xl hover:ring-2 ring-amber-400 transition duration-300">
+                    <div class="md:w-1/3 flex items-center mb-4 md:mb-0">
+                        <div class="text-5xl text-amber-500 mr-4">✅</div>
+                        <h3 class="text-2xl font-semibold text-blue-700">Testing & UAT Support</h3>
+                    </div>
+                    <p class="md:w-2/3 text-gray-600">Defining test strategies, creating test cases derived directly from requirements, and supporting User Acceptance Testing (UAT) to validate solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="about" class="py-20 bg-white scroll-section">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="md:flex md:space-x-12 items-center">
-               <div class="md:w-1/2 mb-8 md:mb-0">
-                    <img src="https://media.licdn.com/dms/image/v2/C5603AQERPYRVUsNdZA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1527287965975?e=1763596800&v=beta&t=vyhT-exJ43P5Y6-prnBOgAleG36aBGT-E1huZTysafY" 
-                        alt="Brady Elson - Brass Anvil Group Founder" 
-                        width="256" height="256"
-                        class="h-64 w-64 object-cover rounded-full shadow-xl mx-auto border-4 border-amber-400">
-                    </div>
-                <div class="md:w-1/2">
-                    <h2 class="text-4xl font-extrabold text-anvil mb-6">The Brass Anvil Advantage</h2>
-                    <p class="text-lg text-gray-700 mb-4">
-                        As a solo LLC, Brass Anvil Group offers the precision and dedication of a seasoned systems analyst without the overhead of a large consulting firm. My approach is rooted in clear, concise communication and a commitment to delivering system specifications that are both technically sound and strategically aligned with your business goals.
-                    </p>
-                    <p class="text-lg text-gray-700 font-semibold">
-                        Ready to transform complexity into clarity? Let's connect.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section id="about" class="py-20 bg-white scroll-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:space-x-12 items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <img src="https://media.licdn.com/dms/image/v2/C5603AQERPYRVUsNdZA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1527287965975?e=1763596800&v=beta&t=vyhT-exJ43P5Y6-prnBOgAleG36aBGT-E1huZTysafY" 
+                        alt="Brady Elson - Brass Anvil Group Founder" 
+                        class="h-64 w-64 object-cover rounded-full shadow-xl mx-auto border-4 border-amber-400">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl font-extrabold text-gray-800 mb-6">The Brass Anvil Advantage</h2>
+                    <p class="text-lg text-gray-700 mb-4">
+                        As a solo LLC, Brass Anvil Group offers the precision and dedication of a seasoned systems analyst without the overhead of a large consulting firm. My approach is rooted in clear, concise communication and a commitment to delivering system specifications that are both technically sound and strategically aligned with your business goals.
+                    </p>
+                    <p class="text-lg text-gray-700 font-semibold">
+                        Ready to transform complexity into clarity? Let's connect.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="contact" class="py-20 bg-anvil text-white scroll-section">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-4xl font-extrabold text-amber-400 mb-6 text-center">Contact Inquiry</h2>
-            <p class="text-lg text-center mb-8 opacity-90">Send me a message to discuss your project.</p>
+    <section id="contact" class="py-20 bg-gray-700 text-white scroll-section">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-extrabold text-amber-400 mb-6 text-center">Contact Inquiry</h2>
+            <p class="text-lg text-center mb-8 opacity-90">Send me a message to discuss your project.</p>
 
-                        <form id="contactForm" name="contact" method="POST" action="/success" data-netlify="true" netlify-honeypot="bot-field" class="space-y-6 bg-gray-700 p-8 rounded-xl shadow-2xl">
-                <input type="hidden" name="form-name" value="contact" />
-                <input type="hidden" name="bot-field" />
-                <input type="hidden" name="_subject" value="New Inquiry from Brass Anvil Website" />
+            <form id="contactForm" class="space-y-6 bg-gray-600 p-8 rounded-xl shadow-2xl">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-200 mb-1">Your Name / Company Contact</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-500 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-gray-400">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-200 mb-1">Work Email</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-500 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-gray-400">
+                </div>
+                <div>
+                    <label for="project" class="block text-sm font-medium text-gray-200 mb-1">Project Summary / Business Need</label>
+                    <textarea id="project" name="project" rows="4" required class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-500 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-gray-400"></textarea>
+                </div>
+                <button type="submit" id="submitButton" class="w-full px-6 py-3 bg-amber-400 text-gray-900 font-bold text-lg rounded-lg shadow-xl hover:bg-amber-300 transition duration-300 hover:shadow-lg">
+                    Submit Inquiry
+                </button>
+            </form>
+        </div>
+    </section>
 
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-200 mb-1">Your Name / Company Contact</label>
-                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-gray-400">
-                </div>
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-200 mb-1">Work Email</label>
-                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-gray-400">
-                </div>
-                <div>
-                    <label for="project" class="block text-sm font-medium text-gray-200 mb-1">Project Summary / Business Need</label>
-                    <textarea id="project" name="project" rows="4" required class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:ring-amber-500 focus:border-amber-500 text-white placeholder-gray-400"></textarea>
-                </div>
-                <button type="submit" id="submitButton" class="w-full px-6 py-3 bg-amber-400 text-gray-900 font-bold text-lg rounded-lg shadow-xl hover:bg-amber-300 transition duration-300 hover:shadow-lg">
-                    Submit Inquiry
-                </button>
-            </form>
-            <p class="text-center text-xs mt-4 opacity-70">Note: The success message will appear in a popup.</p>
-        </div>
-    </section>
+    <footer class="bg-gray-800 text-gray-400 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; <span id="currentYear"></span> Brass Anvil Group LLC. All rights reserved. | Product Strategy, Business Analysis & Consulting</p>
+            <p class="mt-2">Connect: <a href="https://www.linkedin.com/in/bradyelson/" target="_blank" class="text-amber-400 hover:underline">LinkedIn</a> | <a href="#contact" class="text-amber-400 hover:underline">Contact</a></p>
+        </div>
+    </footer>
 
-        <footer class="bg-gray-800 text-gray-400 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-            <p>&copy; <span id="currentYear"></span> Brass Anvil Group LLC. All rights reserved. | Product Strategy, Business Analysis & Consulting</p>
-            <p class="mt-2">Connect: <a href="https://www.linkedin.com/in/bradyelson/" target="_blank" class="text-amber-400 hover:underline">LinkedIn</a> | <a href="#contact" class="text-amber-400 hover:underline">Contact</a></p>
-        </div>
-    </footer>
+    <div id="successModal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="modal-content bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full mx-4">
+            <h3 class="text-3xl font-bold text-blue-700 mb-4">Message Sent! 🚀</h3>
+            <p class="text-gray-700 mb-6">Thank you for reaching out. I've received your inquiry and will be in touch shortly to discuss your project.</p>
+            <button id="closeModalButton" class="w-full px-4 py-2 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-500 transition duration-300">
+                Close
+            </button>
+        </div>
+    </div>
 
-        <div id="successModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 items-center justify-center transition-opacity duration-300">
-        <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full mx-4 transform transition-transform duration-300 scale-100">
-            <h3 class="text-3xl font-bold text-primary mb-4">Message Sent! 🚀</h3>
-            <p class="text-gray-700 mb-6">Thank you for reaching out. I've received your inquiry and will be in touch shortly to discuss your project.</p>
-            <button id="closeModalButton" class="w-full px-4 py-2 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-500 transition duration-300">
-                Close
-            </button>
-        </div>
-    </div>
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    <script>
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
 
-        // --- Mobile Menu Toggle ---
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
+        mobileMenuButton.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            menuIcon.setAttribute('d', isHidden ? 'M4 6h16M4 12h16m-7 6h7' : 'M6 18L18 6M6 6l12 12');
+        });
 
-        mobileMenuButton.addEventListener('click', () => {
-            const isHidden = mobileMenu.classList.toggle('hidden');
-            
-            // Toggle the hamburger/close icon
-            if (isHidden) {
-                // Menu closed (show hamburger)
-                menuIcon.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
-            } else {
-                // Menu open (show X)
-                menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-            }
-        });
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+            });
+        });
 
-        // --- Intersection Observer for Scroll Animation ---
-        const scrollSections = document.querySelectorAll('.scroll-section');
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        // Intersection Observer for Scroll Animation
+        const scrollSections = document.querySelectorAll('.scroll-section:not(.visible)');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Stop observing once visible
-                }
-            });
-        }, observerOptions);
+        scrollSections.forEach(section => observer.observe(section));
 
-        scrollSections.forEach(section => {
-            if (!section.classList.contains('visible')) {
-                observer.observe(section);
-            }
-        });
-
-        // --- Form Submission with Modal ---
-        const contactForm = document.getElementById('contactForm');
-        const submitButton = document.getElementById('submitButton');
-        const successModal = document.getElementById('successModal');
-        const closeModalButton = document.getElementById('closeModalButton');
-        
-        const closeModal = () => {
-            successModal.classList.add('hidden');
-            successModal.classList.remove('flex');
-            successModal.style.display = 'none'; 
-            submitButton.focus(); 
-        };
-        
-        contactForm.addEventListener('submit', function (e) {
-            // Because we are now using a serverless form handler (Netlify), 
-            // we should not prevent the default submit action unless we 
-            // were doing client-side validation first.
-            // For Netlify Forms to work, you must allow the default submission:
+        // Form Submission with Modal
+        const contactForm = document.getElementById('contactForm');
+        const submitButton = document.getElementById('submitButton');
+        const successModal = document.getElementById('successModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        
+        const showModal = () => {
+            successModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        };
+        
+        const closeModal = () => {
+            successModal.classList.remove('show');
+            document.body.style.overflow = '';
+        };
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
             
-            // e.preventDefault(); // <-- KEEP COMMENTED OUT for Netlify Forms
-            
-            // Instead, Netlify recommends creating a separate thank you page:
-            // The form now uses action="/success", which Netlify automatically redirects to.
-
-            // The client-side modal logic is only for *visual feedback* in this static environment.
-            // When deploying live with a form backend, you would typically rely on the 
-            // page redirect in the 'action' attribute. 
-            
-            // I'm restoring the modal for the demonstration, but note this may conflict 
-            // with Netlify's automatic redirect on live deployment. 
-            
-            e.preventDefault(); // Re-enabling modal for code demonstration context
-
             submitButton.textContent = 'Sending...';
-            submitButton.disabled = true;
+            submitButton.disabled = true;
 
-            // Simulate submission
-            setTimeout(() => {
-                // Show the modal
-                successModal.style.display = 'flex'; 
-                successModal.classList.remove('hidden');
-                successModal.classList.add('flex');
-                closeModalButton.focus(); 
-                
-                // Reset the form
-                contactForm.reset();
-                
-                // Restore button state
-                submitButton.textContent = 'Submit Inquiry';
-                submitButton.disabled = false;
-            }, 1000); 
-        });
+            setTimeout(() => {
+                showModal();
+                contactForm.reset();
+                submitButton.textContent = 'Submit Inquiry';
+                submitButton.disabled = false;
+            }, 1000);
+        });
 
-        // Logic to close the modal
-        closeModalButton.addEventListener('click', closeModal);
+        closeModalButton.addEventListener('click', closeModal);
+        
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) closeModal();
+        });
 
-        // Close when clicking outside the modal content or pressing Escape
-        successModal.addEventListener('click', (e) => {
-            if (e.target === successModal) {
-                closeModal();
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && successModal.classList.contains('flex')) {
-                closeModal();
-            }
-        });
-
-    </script>
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && successModal.classList.contains('show')) closeModal();
+        });
+    </script>
 </body>
 </html>
